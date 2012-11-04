@@ -27,8 +27,6 @@
 # 02110-1301  USA
 ######################### END LICENSE BLOCK #########################
 
-import constants
-
 # 255: Control characters that usually does not exist in any text
 # 254: Carriage/Return
 # 253: symbol (punctuation) that does not belong to word
@@ -196,6 +194,6 @@ Win1255HebrewModel = { \
   'charToOrderMap': win1255_CharToOrderMap,
   'precedenceMatrix': HebrewLangModel,
   'mTypicalPositiveRatio': 0.984004,
-  'keepEnglishLetter': constants.False,
+  'keepEnglishLetter': False,
   'charsetName': "windows-1255"
 }

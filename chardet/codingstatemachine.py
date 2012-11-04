@@ -25,7 +25,8 @@
 # 02110-1301  USA
 ######################### END LICENSE BLOCK #########################
 
-from constants import eStart, eError, eItsMe
+from chardet.compat import _byteord
+from chardet.constants import eStart, eError
 
 class CodingStateMachine:
     def __init__(self, sm):
@@ -41,7 +42,7 @@ class CodingStateMachine:
         # for each byte we get its class
         # if it is first byte, we also get byte length
         try:
-            byteCls = self._mModel['classTable'][ord(c)]
+            byteCls = self._mModel['classTable'][_byteord(c)]
         except IndexError:
             return eError
         if self._mCurrentState == eStart:

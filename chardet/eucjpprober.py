@@ -25,8 +25,9 @@
 # 02110-1301  USA
 ######################### END LICENSE BLOCK #########################
 
-import constants, sys
-from constants import eStart, eError, eItsMe
+import sys
+from chardet import constants
+from chardet.constants import eStart, eError, eItsMe
 from mbcharsetprober import MultiByteCharSetProber
 from codingstatemachine import CodingStateMachine
 from chardistribution import EUCJPDistributionAnalysis

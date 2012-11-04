@@ -25,7 +25,7 @@
 # 02110-1301  USA
 ######################### END LICENSE BLOCK #########################
 
-import constants
+from chardet.compat import _bytechar, _byteord
 from euctwfreq import EUCTWCharToFreqOrder, EUCTW_TABLE_SIZE, EUCTW_TYPICAL_DISTRIBUTION_RATIO
 from euckrfreq import EUCKRCharToFreqOrder, EUCKR_TABLE_SIZE, EUCKR_TYPICAL_DISTRIBUTION_RATIO
 from gb2312freq import GB2312CharToFreqOrder, GB2312_TABLE_SIZE, GB2312_TYPICAL_DISTRIBUTION_RATIO
@@ -45,7 +45,7 @@ class CharDistributionAnalysis:
         
     def reset(self):
         """reset analyser, clear any state"""
-        self._mDone = constants.False # If this flag is set to constants.True, detection is done and conclusion has been made
+        self._mDone = False # If this flag is set to True, detection is done and conclusion has been made
         self._mTotalChars = 0 # Total characters encountered
         self._mFreqChars = 0 # The number of characters whose frequency order is less than 512
 
@@ -100,8 +100,8 @@ class EUCTWDistributionAnalysis(CharDistributionAnalysis):
         #   first  byte range: 0xc4 -- 0xfe
         #   second byte range: 0xa1 -- 0xfe
         # no validation needed here. State machine has done that
-        if aStr[0] >= '\xC4':
-            return 94 * (ord(aStr[0]) - 0xC4) + ord(aStr[1]) - 0xA1
+        if aStr[0] >= _bytechar(0xC4):
+            return 94 * (_byteord(aStr[0]) - 0xC4) + _byteord(aStr[1]) - 0xA1
         else:
             return -1
 
@@ -117,8 +117,8 @@ class EUCKRDistributionAnalysis(CharDistributionAnalysis):
         #   first  byte range: 0xb0 -- 0xfe
         #   second byte range: 0xa1 -- 0xfe
         # no validation needed here. State machine has done that
-        if aStr[0] >= '\xB0':
-            return 94 * (ord(aStr[0]) - 0xB0) + ord(aStr[1]) - 0xA1
+        if aStr[0] >= _bytechar(0xB0):
+            return 94 * (_byteord(aStr[0]) - 0xB0) + _byteord(aStr[1]) - 0xA1
         else:
             return -1;
 
@@ -134,8 +134,8 @@ class GB2312DistributionAnalysis(CharDistributionAnalysis):
         #  first  byte range: 0xb0 -- 0xfe
         #  second byte range: 0xa1 -- 0xfe
         # no validation needed here. State machine has done that
-        if (aStr[0] >= '\xB0') and (aStr[1] >= '\xA1'):
-            return 94 * (ord(aStr[0]) - 0xB0) + ord(aStr[1]) - 0xA1
+        if (aStr[0] >= _bytechar(0xB0)) and (aStr[1] >= _bytechar(0xA1)):
+            return 94 * (_byteord(aStr[0]) - 0xB0) + _byteord(aStr[1]) - 0xA1
         else:
             return -1;
 
@@ -151,11 +151,11 @@ class Big5DistributionAnalysis(CharDistributionAnalysis):
         #   first  byte range: 0xa4 -- 0xfe
         #   second byte range: 0x40 -- 0x7e , 0xa1 -- 0xfe
         # no validation needed here. State machine has done that
-        if aStr[0] >= '\xA4':
-            if aStr[1] >= '\xA1':
-                return 157 * (ord(aStr[0]) - 0xA4) + ord(aStr[1]) - 0xA1 + 63
+        if aStr[0] >= _bytechar(0xA4):
+            if aStr[1] >= _bytechar(0xA1):
+                return 157 * (_byteord(aStr[0]) - 0xA4) + _byteord(aStr[1]) - 0xA1 + 63
             else:
-                return 157 * (ord(aStr[0]) - 0xA4) + ord(aStr[1]) - 0x40
+                return 157 * (_byteord(aStr[0]) - 0xA4) + _byteord(aStr[1]) - 0x40
         else:
             return -1
 
@@ -171,15 +171,15 @@ class SJISDistributionAnalysis(CharDistributionAnalysis):
         #   first  byte range: 0x81 -- 0x9f , 0xe0 -- 0xfe
         #   second byte range: 0x40 -- 0x7e,  0x81 -- oxfe
         # no validation needed here. State machine has done that
-        if (aStr[0] >= '\x81') and (aStr[0] <= '\x9F'):
-            order = 188 * (ord(aStr[0]) - 0x81)
-        elif (aStr[0] >= '\xE0') and (aStr[0] <= '\xEF'):
-            order = 188 * (ord(aStr[0]) - 0xE0 + 31)
+        if (_bytechar(0x81) <= aStr[0] <= _bytechar(0x9F)):
+            order = 188 * (_byteord(aStr[0]) - 0x81)
+        elif (_bytechar(0xE0) <= aStr[0] <= _bytechar(0xEF)):
+            order = 188 * (_byteord(aStr[0]) - 0xE0 + 31)
         else:
             return -1;
-        order = order + ord(aStr[1]) - 0x40
-        if aStr[1] > '\x7F':
-            order =- 1
+        order = order + _byteord(aStr[1]) - 0x40
+        if aStr[1] > _bytechar(0x7F):
+            order = -1
         return order
 
 class EUCJPDistributionAnalysis(CharDistributionAnalysis):
@@ -194,7 +194,7 @@ class EUCJPDistributionAnalysis(CharDistributionAnalysis):
         #   first  byte range: 0xa0 -- 0xfe
         #   second byte range: 0xa1 -- 0xfe
         # no validation needed here. State machine has done that
-        if aStr[0] >= '\xA0':
-            return 94 * (ord(aStr[0]) - 0xA1) + ord(aStr[1]) - 0xa1
+        if aStr[0] >= _bytechar(0xA0):
+            return 94 * (_byteord(aStr[0]) - 0xA1) + _byteord(aStr[1]) - 0xa1
         else:
             return -1

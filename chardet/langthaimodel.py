@@ -25,8 +25,6 @@
 # 02110-1301  USA
 ######################### END LICENSE BLOCK #########################
 
-import constants
-
 # 255: Control characters that usually does not exist in any text
 # 254: Carriage/Return
 # 253: symbol (punctuation) that does not belong to word
@@ -195,6 +193,6 @@ TIS620ThaiModel = { \
   'charToOrderMap': TIS620CharToOrderMap,
   'precedenceMatrix': ThaiLangModel,
   'mTypicalPositiveRatio': 0.926386,
-  'keepEnglishLetter': constants.False,
+  'keepEnglishLetter': False,
   'charsetName': "TIS-620"
 }
