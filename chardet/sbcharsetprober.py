@@ -26,7 +26,9 @@
 # 02110-1301  USA
 ######################### END LICENSE BLOCK #########################
 
-import constants, sys
+import sys
+from chardet import constants
+from chardet.compat import _byteord
 from charsetprober import CharSetProber
 
 SAMPLE_SIZE = 64
@@ -39,7 +41,7 @@ POSITIVE_CAT = NUMBER_OF_SEQ_CAT - 1
 #NEGATIVE_CAT = 0
 
 class SingleByteCharSetProber(CharSetProber):
-    def __init__(self, model, reversed=constants.False, nameProber=None):
+    def __init__(self, model, reversed=False, nameProber=None):
         CharSetProber.__init__(self)
         self._mModel = model
         self._mReversed = reversed # TRUE if we need to reverse every pair in the model lookup
@@ -68,7 +70,7 @@ class SingleByteCharSetProber(CharSetProber):
             return self.get_state()
         for c in aBuf:
             try:
-                order = self._mModel['charToOrderMap'][ord(c)]
+                order = self._mModel['charToOrderMap'][_byteord(c)]
             except IndexError:
                 return constants.eError
             if order < SYMBOL_CAT_ORDER:

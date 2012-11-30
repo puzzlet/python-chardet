@@ -1,3 +1,4 @@
+import sys
 from setuptools import setup
 
 # patch distutils if it can't cope with the "classifiers" or "download_url"
@@ -8,6 +9,9 @@ if not hasattr(DistributionMetadata, 'classifiers'):
 if not hasattr(DistributionMetadata, 'download_url'):
     DistributionMetadata.download_url = None
 
+kwargs = {}
+if sys.version_info >= (3, ):
+    kwargs['use_2to3'] = True
 setup(
     name = 'chardet',
     version = '1.1',
@@ -29,7 +33,7 @@ Detects
  - ISO-8859-8, windows-1255 (Visual and Logical Hebrew)
  - TIS-620 (Thai)
 
-Requires Python 2.1 or later
+Requires Python 2.3 or later
 
 Command-line Tool
 -----------------
@@ -56,9 +60,21 @@ or more files::
         "License :: OSI Approved :: GNU Library or Lesser General Public License (LGPL)",
         "Operating System :: OS Independent",
         "Programming Language :: Python",
+        "Programming Language :: Python :: 2",
+        "Programming Language :: Python :: 2.3",
+        "Programming Language :: Python :: 2.4",
+        "Programming Language :: Python :: 2.5",
+        "Programming Language :: Python :: 2.6",
+        "Programming Language :: Python :: 2.7",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.1",
+        "Programming Language :: Python :: 3.2",
+        'Programming Language :: Python :: Implementation :: CPython',
+        'Programming Language :: Python :: Implementation :: PyPy',
         "Topic :: Software Development :: Libraries :: Python Modules",
         "Topic :: Text Processing :: Linguistic",
         ],
     scripts=['bin/chardetect.py'],
-    packages = ['chardet']
+    packages = ['chardet'],
+    **kwargs
     )

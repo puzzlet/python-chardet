@@ -27,7 +27,9 @@
 # 02110-1301  USA
 ######################### END LICENSE BLOCK #########################
 
-import constants, sys
+import sys
+from chardet import constants
+from chardet.compat import _bytechar
 from constants import eStart, eError, eItsMe
 from charsetprober import CharSetProber
 
@@ -36,7 +38,7 @@ class MultiByteCharSetProber(CharSetProber):
         CharSetProber.__init__(self)
         self._mDistributionAnalyzer = None
         self._mCodingSM = None
-        self._mLastChar = ['\x00', '\x00']
+        self._mLastChar = [_bytechar(0), _bytechar(0)]
 
     def reset(self):
         CharSetProber.reset(self)
@@ -44,7 +46,7 @@ class MultiByteCharSetProber(CharSetProber):
             self._mCodingSM.reset()
         if self._mDistributionAnalyzer:
             self._mDistributionAnalyzer.reset()
-        self._mLastChar = ['\x00', '\x00']
+        self._mLastChar = [_bytechar(0), _bytechar(0)]
 
     def get_charset_name(self):
         pass

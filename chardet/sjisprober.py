@@ -30,8 +30,9 @@ from codingstatemachine import CodingStateMachine
 from chardistribution import SJISDistributionAnalysis
 from jpcntx import SJISContextAnalysis
 from mbcssm import SJISSMModel
-import constants, sys
-from constants import eStart, eError, eItsMe
+import sys
+from chardet import constants
+from chardet.constants import eStart, eError, eItsMe
 
 class SJISProber(MultiByteCharSetProber):
     def __init__(self):

@@ -27,7 +27,8 @@
 ######################### END LICENSE BLOCK #########################
 
 from charsetprober import CharSetProber
-import constants
+from chardet import constants
+from chardet.compat import _byteord
 import operator
 
 FREQ_CAT_NUM = 4
@@ -110,7 +111,7 @@ class Latin1Prober(CharSetProber):
         aBuf = self.filter_with_english_letters(aBuf)
         for c in aBuf:
             try:
-                charClass = Latin1_CharToClass[ord(c)]
+                charClass = Latin1_CharToClass[_byteord(c)]
             except IndexError:
                 return constants.eError
             freq = Latin1ClassModel[(self._mLastCharClass * CLASS_NUM) + charClass]
